@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08080C">
+<title>Palavra Rhema</title>
+<style>
+:root{--bg:#08080C;--side:#0A0A0F;--card:#0D0D13;--card2:#13131B;--line:#22222C;--line2:#2E2E3A;--text:#F4F4F6;--muted:#8E909C;--blue:#9EC5FF;--pink:#FFB4C8;--green:#A8E6BE;--yellow:#FFE08A;--lilac:#C9B6FF;--danger:#FF9FA8;--r:18px;--font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{background:var(--bg);color-scheme:dark}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{background:var(--side);border-right:1px solid var(--line);padding:20px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;padding:6px 12px 20px}
+.brand b{background:linear-gradient(90deg,var(--blue),var(--lilac));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;color:var(--muted);font-size:.96rem;text-align:left;width:100%;transition:.15s}
+.nav:hover{color:var(--text)}.nav.on{background:#171720;color:var(--text)}
+main{min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(8,8,12,.92);backdrop-filter:blur(8px);z-index:5}
+.top h2{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.page{padding:24px 28px 40px;display:grid;gap:16px;max-width:1200px;align-content:start}
+.white{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:13px;background:#fff;color:#0B0B10;font-weight:600;font-size:.92rem;white-space:nowrap;transition:.15s}
+.white:hover{background:#e8e8ee}.white:disabled{background:var(--card2);color:var(--muted)}
+.ghost{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:12px;border:1px solid var(--line2);color:var(--text);font-size:.88rem;white-space:nowrap;text-decoration:none}
+.ghost:hover{border-color:var(--blue)}
+.btn-i{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;color:var(--muted);flex:none}
+.btn-i:hover{color:var(--text);background:var(--line)}
+.btn-danger{padding:9px 15px;border-radius:12px;border:1px solid rgba(255,159,168,.4);color:var(--danger);font-size:.88rem}
+.cancel{height:42px;padding:0 16px;border-radius:13px;border:1px solid var(--line2);color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.card h3{font-size:1.05rem;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.stat{--c:var(--blue);background:var(--card);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:var(--r);padding:18px;display:grid;gap:8px}
+.stat span{color:var(--muted);font-size:.85rem}.stat b{font-size:1.9rem;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.empty{text-align:center;padding:30px 12px;color:var(--muted);line-height:1.6}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+.tab{padding:9px 15px;border-radius:99px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;font-size:.9rem}
+.tab.on{background:#171720;color:var(--text);border-color:var(--line2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line2);font-size:.85rem;color:var(--muted)}
+.chip.on{background:rgba(158,197,255,.15);border-color:var(--blue);color:var(--blue)}
+.bd{font-size:.72rem;padding:3px 9px;border-radius:99px;background:var(--line2);white-space:nowrap;color:var(--text)}
+.bd.blu{background:rgba(158,197,255,.16);color:var(--blue)}.bd.pnk{background:rgba(255,180,200,.16);color:var(--pink)}
+.bd.grn{background:rgba(168,230,190,.16);color:var(--green)}.bd.yel{background:rgba(255,224,138,.16);color:var(--yellow)}
+.bd.lil{background:rgba(201,182,255,.16);color:var(--lilac)}
+.flt{display:grid;grid-template-columns:2fr repeat(5,1fr);gap:8px}
+.flt .field{padding:10px 12px;font-size:.88rem}
+.list{display:grid;gap:8px}
+.row{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:14px;background:var(--card2);border:1px solid var(--line);cursor:pointer}
+.row:hover{border-color:var(--line2)}.row.nc{cursor:default}
+.who{flex:1;min-width:0}.who strong{display:block;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who small{color:var(--muted);font-size:.82rem}
+.fav.on{color:var(--yellow)}.fav.on svg{fill:currentColor}
+.field{width:100%;padding:12px 13px;border-radius:12px;background:var(--bg);border:1px solid var(--line2);color:var(--text);font:inherit;font-size:.95rem}
+.field:focus{outline:none;border-color:var(--blue)}
+textarea.field{resize:vertical;font-family:inherit}
+.fg{display:grid;gap:6px;margin-bottom:12px}.fl{font-size:.82rem;color:var(--muted)}
+.ck{display:flex;gap:10px;align-items:center;margin:4px 0 12px;font-size:.92rem}
+.err{min-height:20px;margin:6px 0;font-size:.85rem;color:var(--danger)}
+dialog{margin:auto;border:1px solid var(--line2);border-radius:22px;background:var(--card);color:var(--text);padding:24px;width:min(94vw,460px)}
+dialog.big{width:min(94vw,760px);max-height:90vh;overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.68);backdrop-filter:blur(3px)}
+dialog h3{font-size:1.15rem;margin-bottom:14px}
+#fBody{max-height:62vh;overflow-y:auto;padding-right:4px}
+.dl{display:flex;gap:10px;justify-content:flex-end;margin-top:10px;flex-wrap:wrap}
+.cifra{font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;overflow-x:auto;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;max-height:55vh;margin:8px 0}
+.cifra.ltr{white-space:pre-wrap;font-family:inherit;font-size:.95rem}
+.ch{color:var(--yellow);font-weight:700}
+.sd-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
+.sd-h h3{margin:0}.sd-h small{color:var(--muted)}
+.row2{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.calh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;text-transform:capitalize}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cw{text-align:center;color:var(--muted);font-size:.78rem;padding:4px}
+.cd{min-height:80px;border:1px solid var(--line);background:var(--card2);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left}
+.cd.emp{border:0;background:none}.cd.today{border-color:var(--blue)}.cd b{font-size:.82rem;color:var(--muted)}
+.ev{font-style:normal;font-size:.7rem;padding:2px 7px;border-radius:99px;background:var(--line2)}
+.ev.virtual{background:transparent;border:1px dashed var(--line2);color:var(--muted)}
+.ev.rascunho{background:rgba(255,224,138,.2);color:var(--yellow)}.ev.finalizada{background:rgba(158,197,255,.2);color:var(--blue)}
+.ev.realizada{background:rgba(168,230,190,.2);color:var(--green)}.ev.cancelada{background:rgba(255,180,200,.15);color:var(--pink);text-decoration:line-through}
+.eh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.eh small{color:var(--muted);display:block;margin-top:2px}
+.slot{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px;display:grid;gap:12px}
+.sl-h{display:flex;align-items:center;gap:10px}.sl-h strong{flex:1}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.mi{display:grid;gap:4px;font-size:.78rem;color:var(--muted)}.mi .field{padding:9px 10px;font-size:.88rem}
+.warn{color:var(--yellow);font-size:.82rem;line-height:1.45}
+.bar{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:.9rem;margin-bottom:10px}
+.bar .bi{grid-column:1/-1;height:6px;border-radius:9px;background:var(--card2);overflow:hidden}.bar .bi i{display:block;height:100%;background:var(--blue);border-radius:9px}
+details{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+details summary{cursor:pointer;font-weight:600}details p{color:var(--muted);font-size:.88rem;margin-top:6px}
+.sk{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;pointer-events:none;padding:12px 18px;border-radius:14px;background:var(--card2);border:1px solid var(--line2);font-size:.9rem;box-shadow:0 12px 32px rgba(0,0,0,.55);transition:.25s;max-width:92vw;z-index:60}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+#auth{display:none;min-height:100vh;place-items:center;padding:20px}
+body.locked #auth{display:grid}
+body.boot #auth,body.locked .app,body.locked .bottom,body.boot .app,body.boot .bottom{display:none}
+.auth-card{width:min(92vw,380px);background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;display:grid;gap:14px}
+.auth-card .brand{padding:0}.auth-card p{color:var(--muted);font-size:.9rem;line-height:1.45}
+.auth-card .white{justify-content:center;width:100%}
+.bottom{display:none}
+@media(max-width:1000px){.flt{grid-template-columns:1fr 1fr}.flt .field:first-child{grid-column:1/-1}}
+@media(max-width:820px){
+  .app{display:block}aside{display:none}
+  .top{padding:12px 14px}.top h2{font-size:1.25rem}.page{padding:16px 14px 100px}
+  .white span{display:none}.white{padding:0 14px}
+  .bottom{display:flex;overflow-x:auto;position:fixed;left:0;right:0;bottom:0;background:rgba(10,10,15,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 6px max(6px,env(safe-area-inset-bottom));z-index:20}
+  .bottom .nav{flex-direction:column;gap:3px;font-size:.68rem;padding:8px 10px;min-width:70px;width:auto;align-items:center}
+  .cd{min-height:62px;padding:4px}.toast{bottom:90px}
+}
+</style>
+</head>
+<body class="locked boot">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4H14M10 4H3M21 12H12M8 12H3M21 20H16M12 20H3M14 2v4M8 10v4M16 18v4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+</svg>
+
+<div id="auth">
+  <form class="auth-card" id="fAuth">
+    <div class="brand">Palavra <b>Rhema</b></div>
+    <p>Entre para acessar o ministério.</p>
+    <input class="field" id="inEmail" type="email" placeholder="E-mail" autocomplete="username" required>
+    <input class="field" id="inPass" type="password" placeholder="Senha" autocomplete="current-password" required>
+    <div class="err" id="authErr"></div>
+    <button class="white" type="submit">Entrar</button>
+  </form>
+</div>
+
+<div class="app">
+  <aside><div class="brand">Palavra <b>Rhema</b></div><div id="nav" style="display:grid;gap:6px"></div></aside>
+  <main>
+    <div class="top"><h2 id="ttl"></h2><div id="topAct"></div></div>
+    <div class="page" id="page"></div>
+  </main>
+</div>
+<nav class="bottom" id="bnav"></nav>
+
+<dialog id="dlgF">
+  <form id="fForm" autocomplete="off">
+    <h3></h3><div id="fBody"></div><div class="err" id="fErr"></div>
+    <div class="dl"><button type="button" class="btn-danger" id="fDel">Excluir</button><button type="button" class="cancel" id="fCancel">Cancelar</button><button type="button" class="ghost" id="fEx"></button><button class="white" id="fOk" type="submit">Salvar</button></div>
+  </form>
+</dialog>
+<dialog id="dlgV" class="big"><div id="vBody"></div><div class="dl"><button type="button" class="cancel" id="vClose">Fechar</button></div></dialog>
+<div class="toast" id="toast" role="status"><span id="toastMsg"></span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(()=>{
+const SB_URL="https://mmnhjkibknddrkhckibp.supabase.co",SB_KEY="sb_publishable_Xq4pAHP93FLzBIfCjAX7tA_HWCM1tSi";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim().toLowerCase();
+const ic=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
+if(!window.supabase){document.body.classList.remove("boot");$("authErr").textContent="Não foi possível carregar o Supabase. Verifique a conexão e recarregue.";return}
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+const T=n=>sb.from("lv_"+n);
+const chk=async p=>{const r=await p;if(r.error)throw r.error;return r};
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const D=s=>new Date(s+"T12:00:00");
+const br=s=>{const d=D(s);return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`};
+const TODAY=()=>iso(new Date());
+const hh=t=>String(t).slice(0,5);
+const INS={violao:"Violão",guitarra:"Guitarra",bateria:"Bateria",baixo:"Baixo",teclado:"Teclado",voz:"Voz"},INSTR=["violao","guitarra","bateria","baixo","teclado"];
+const NIV={iniciante:"Iniciante",intermediario:"Intermediário",avancado:"Avançado"};
+const CAT={jubilo:"Júbilo",adoracao:"Adoração"};
+const STC={desenvolvimento:"Em desenvolvimento",letra_concluida:"Letra concluída",melodia_definida:"Melodia definida",em_ensaio:"Em ensaio",pronta:"Pronta para ministrar",publicada:"Publicada na biblioteca"};
+const STA={nova:"Nova",em_aprendizagem:"Em aprendizagem",pronta_ensaio:"Pronta para ensaio",dominada:"Dominada"};
+const STU={rascunho:"Rascunho",finalizada:"Finalizada",realizada:"Realizada",cancelada:"Cancelada"};
+const DS=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],DN=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+const POS={louvor1:["Louvor 1","jubilo",1],louvor2:["Louvor 2","jubilo",2],adoracao1:["Adoração 1","adoracao",3],adoracao2:["Adoração 2","adoracao",4],adoracao_pos:["Adoração pós-ministração","adoracao",5],louvor_oferta:["Louvor de oferta","jubilo",6],ensaio:["Música","",1]};
+const tpl=w=>w===2?["louvor1","louvor2","adoracao1","louvor_oferta"]:["louvor1","louvor2","adoracao1","adoracao2","louvor_oferta"];
+const MAJ=["C","Db","D","Eb","E","F","F#","G","Ab","A","Bb","B"],MIN=["Cm","C#m","Dm","Ebm","Em","Fm","F#m","Gm","G#m","Am","Bbm","Bm"],KEYS=[...MAJ,...MIN];
+const KO=[["","—"],...KEYS.map(k=>[k,k])];
+const NS=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],NF=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
+const FLAT=new Set(["F","Bb","Eb","Ab","Db","Gb","Dm","Gm","Cm","Fm","Bbm","Ebm"]);
+const CH=/^[A-G][#b]?(maj|min|dim|aug|sus|add|m|M)?[0-9]*(\([^)]*\))?(\/[A-G][#b]?)?$/;
+const nIdx=n=>{const i=NS.indexOf(n);return i>=0?i:NF.indexOf(n)};
+const root=k=>String(k||"").replace(/m$/,"");
+const isCL=l=>{const t=l.trim().split(/\s+/).filter(Boolean);return t.length>0&&t.some(x=>CH.test(x))&&t.every(x=>CH.test(x)||/^[|\-\/x0-9()]+$/i.test(x))};
+function cifraH(txt,from,to){
+  const sh=from&&to?(nIdx(root(to))-nIdx(root(from))+12)%12:0,fl=FLAT.has(to);
+  const tr=c=>sh?c.replace(/[A-G][#b]?/g,n=>(fl?NF:NS)[(nIdx(n)+sh)%12]):c;
+  return String(txt).split("\n").map(l=>isCL(l)?l.replace(/\S+/g,t=>CH.test(t)?`<b class="ch">${esc(tr(t))}</b>`:esc(t)):esc(l)).join("\n");
+}
+
+let user=null,S={admin:false,me:null,integ:[],hab:[],minis:[],intp:[],mus:[],habil:[],favs:new Set(),prio:[],comps:[],autores:[],apr:[],agenda:[],cultos:[]};
+let V="painel",L={tab:"jubilo",sel:null,q:"",cat:"",int:"",min:"",can:"",aut:""},AP={i:"",s:""},showIn=false,HP=90,SD={id:null,tab:"cifra",tom:null};
+const now=new Date();let C={y:now.getFullYear(),m:now.getMonth(),cur:null};
+const byId=(a,id)=>a.find(x=>x.id===id),integ=id=>byId(S.integ,id),nmOf=(a,id)=>byId(a,id)?.nome||"";
+const prioOf=id=>S.prio.find(p=>p.musica_id===id),lib=p=>!!p.primeira_ministracao&&TODAY()>p.primeira_ministracao;
+const srt=a=>a.sort((x,y)=>(x.nome||x.titulo).localeCompare(y.nome||y.titulo,"pt-BR"));
+
+function toast(m){$("toastMsg").textContent=m;$("toast").classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>$("toast").classList.remove("show"),3200)}
+const fail=(e,m)=>{console.error(e);toast(m||(e&&e.code==="23505"?"Esse registro já existe.":"Não foi possível concluir. Tente de novo."))};
+
+/* ---------- formulário genérico ---------- */
+function fh(f,v){
+  const l=`<span class="fl">${esc(f.l)}${f.req?" *":""}</span>`;
+  if(f.t==="check")return `<label class="ck"><input type="checkbox" data-k="${f.k}" ${v?"checked":""}> ${esc(f.l)}</label>`;
+  if(f.t==="chips")return `<div class="fg">${l}<div class="chips" data-k="${f.k}">${f.o.map(([x,n])=>`<button type="button" class="chip${(v||[]).includes(x)?" on":""}" data-v="${esc(x)}">${esc(n)}</button>`).join("")}</div></div>`;
+  if(f.t==="select")return `<label class="fg">${l}<select class="field" data-k="${f.k}">${f.o.map(([x,n])=>`<option value="${esc(x)}"${String(v??"")===String(x)?" selected":""}>${esc(n)}</option>`).join("")}</select></label>`;
+  if(f.t==="area")return `<label class="fg">${l}<textarea class="field" rows="${f.r||4}" data-k="${f.k}">${esc(v)}</textarea></label>`;
+  if(f.t==="combo")return `<label class="fg">${l}<input class="field" list="dl_${f.k}" data-k="${f.k}" value="${esc(v)}"><datalist id="dl_${f.k}">${f.o.map(n=>`<option value="${esc(n)}">`).join("")}</datalist></label>`;
+  return `<label class="fg">${l}<input class="field" type="${f.t||"text"}" data-k="${f.k}" value="${esc(v)}"></label>`;
+}
+function rd(fields){const o={};for(const f of fields){const e=$("fBody").querySelector(`[data-k="${f.k}"]`);o[f.k]=f.t==="check"?e.checked:f.t==="chips"?[...e.querySelectorAll(".chip.on")].map(c=>c.dataset.v):e.value.trim()}return o}
+function form(title,fields,data={},opt={}){
+  return new Promise(res=>{
+    const d=$("dlgF");d.querySelector("h3").textContent=title;
+    $("fBody").innerHTML=fields.map(f=>fh(f,data[f.k])).join("");
+    $("fErr").textContent="";$("fOk").textContent=opt.ok||"Salvar";
+    $("fDel").style.display=opt.del?"":"none";$("fEx").style.display=opt.ex?"":"none";$("fEx").textContent=opt.ex||"";
+    let done=false;const fin=v=>{if(done)return;done=true;if(d.open)d.close();res(v)};
+    const go=ex=>{const v=rd(fields);const m=fields.find(f=>f.req&&(!v[f.k]||(Array.isArray(v[f.k])&&!v[f.k].length)));if(m){$("fErr").textContent=`${m.l} é obrigatório.`;return}if(ex)v.__ex=true;fin(v)};
+    $("fForm").onsubmit=e=>{e.preventDefault();go(false)};
+    $("fEx").onclick=()=>go(true);$("fDel").onclick=()=>fin({__del:true});$("fCancel").onclick=()=>fin(null);d.onclose=()=>fin(null);
+    d.showModal();
+  });
+}
+$("fBody").addEventListener("click",e=>{const c=e.target.closest(".chip");if(c)c.classList.toggle("on")});
+$("vClose").onclick=()=>$("dlgV").close();
+function view(h){$("vBody").innerHTML=h;if(!$("dlgV").open)$("dlgV").showModal()}
+
+/* ---------- dados ---------- */
+async function loadAll(){
+  const q=[T("integrantes").select("*").order("nome"),T("habilidades").select("*"),T("ministerios").select("*").order("nome"),T("interpretes").select("*").order("nome"),T("musicas").select("*").order("nome"),T("habilitacoes").select("*"),T("favoritos").select("musica_id").eq("user_id",user.id),T("prioridades").select("*"),T("composicoes").select("*").order("atualizado_em",{ascending:false}),T("composicao_autores").select("*"),T("aprendizagem").select("*"),T("agenda_fixa").select("*").order("dia_semana"),T("cultos").select("id,data,hora,tipo,titulo,status,observacoes").order("data"),T("admins").select("user_id")];
+  const r=await Promise.all(q),bad=r.find(x=>x.error);
+  if(bad){fail(bad.error,"Erro ao carregar. Confirme que o SQL do Palavra Rhema foi executado.");return false}
+  const d=r.map(x=>x.data);
+  [S.integ,S.hab,S.minis,S.intp,S.mus,S.habil]=d;S.favs=new Set(d[6].map(x=>x.musica_id));
+  [S.prio,S.comps,S.autores,S.apr,S.agenda,S.cultos]=d.slice(7,13);
+  S.admin=d[13].length>0;S.me=S.integ.find(i=>i.user_id===user.id)||null;
+  return S.admin||!!S.me;
+}
+const reloadCultos=async()=>{S.cultos=(await chk(T("cultos").select("id,data,hora,tipo,titulo,status,observacoes").order("data"))).data};
+const reloadPrio=async()=>{S.prio=(await chk(T("prioridades").select("*"))).data};
+async function ent(tb,nome){
+  nome=(nome||"").trim();if(!nome)return null;
+  const e=S[tb].find(x=>norm(x.nome)===norm(nome));if(e)return e.id;
+  const {data}=await chk(T(tb==="minis"?"ministerios":"interpretes").insert({nome}).select().single());S[tb].push(data);srt(S[tb]);return data.id;
+}
+
+/* ---------- agenda ---------- */
+function evs(a,b){
+  const out=[],real=S.cultos.filter(c=>c.data>=a&&c.data<=b);
+  for(let d=D(a),e=D(b);d<=e;d.setDate(d.getDate()+1)){
+    const k=iso(d),w=d.getDay();
+    for(const g of S.agenda.filter(g=>g.ativo&&g.dia_semana===w)){
+      if(!real.find(c=>c.data===k&&hh(c.hora)===hh(g.hora)&&c.tipo===g.tipo))out.push({data:k,hora:hh(g.hora),tipo:g.tipo,titulo:g.titulo,status:"virtual",id:null});
+    }
+  }
+  real.forEach(c=>out.push({...c,hora:hh(c.hora)}));
+  return out.sort((x,y)=>(x.data+x.hora).localeCompare(y.data+y.hora));
+}
+const evRow=e=>`<div class="row" data-act="openev" data-d="${e.data}" data-h="${e.hora}" data-t="${e.tipo}"><div class="who"><strong>${esc(e.titulo||(e.tipo==="ensaio"?"Ensaio":"Culto"))}</strong><small>${DS[D(e.data).getDay()]}, ${br(e.data)} · ${e.hora}</small></div><span class="bd ${e.status==="realizada"?"grn":e.status==="finalizada"?"blu":e.status==="rascunho"?"yel":e.status==="cancelada"?"pnk":""}">${e.status==="virtual"?"Sem escala":STU[e.status]}</span></div>`;
+
+/* ---------- telas ---------- */
+const NAV=[["painel","Painel","dash"],["escalas","Escalas","cal"],["biblioteca","Biblioteca","music"],["composicoes","Composições","pen"],["aprendizagem","Aprendizagem","book"],["integrantes","Integrantes","users"],["historico","Histórico","clock"],["config","Config","sliders"]];
+function buildNav(){const h=NAV.map(([k,l,i])=>`<button class="nav${V===k?" on":""}" data-act="nav" data-v="${k}">${ic(i)}${l}</button>`).join("");$("nav").innerHTML=h;$("bnav").innerHTML=h}
+function go(v){V=v;C.cur=null;buildNav();render();window.scrollTo(0,0)}
+let RT=0;
+function render(){
+  const my=++RT;let r;
+  try{r=VIEWS[V]()}catch(x){console.error(x);r={t:"Erro",a:"",h:`<div class="empty">Erro ao montar a tela.</div>`}}
+  const put=o=>{if(my!==RT)return;$("ttl").textContent=o.t;$("topAct").innerHTML=o.a||"";$("page").innerHTML=o.h};
+  if(r&&typeof r.then==="function"){$("page").innerHTML=`<div class="empty">Carregando…</div>`;r.then(put).catch(x=>{console.error(x);put({t:"Histórico",a:"",h:`<div class="empty">Não foi possível carregar.</div>`})})}else put(r);
+}
+const addBtn=(act,l)=>S.admin?`<button class="white" data-act="${act}">${ic("plus")}<span>${l}</span></button>`:"";
+
+function painel(){
+  const t=TODAY(),ev=evs(t,iso(new Date(Date.now()+28*864e5))).filter(e=>e.status!=="cancelada").slice(0,6);
+  const act=S.integ.filter(i=>i.ativo),mo=new Date().getMonth();
+  const bd=act.filter(i=>i.aniversario&&D(i.aniversario).getMonth()===mo).sort((a,b)=>D(a.aniversario).getDate()-D(b.aniversario).getDate());
+  const st=(c,l,n)=>`<div class="stat" style="--c:var(${c})"><span>${l}</span><b>${n}</b></div>`;
+  return {t:"Painel",a:"",h:`<div class="stats">${st("--blue","Integrantes ativos",act.length)}${st("--pink","Músicas",S.mus.length)}${st("--yellow","Prioridades pendentes",S.prio.filter(p=>!lib(p)).length)}${st("--lilac","Em aprendizagem",S.apr.filter(a=>a.status!=="dominada").length)}${st("--green","Composições em andamento",S.comps.filter(c=>c.status!=="publicada").length)}</div>
+  <div class="card"><h3>Próximos compromissos</h3><div class="list">${ev.length?ev.map(evRow).join(""):`<div class="empty">Nenhum compromisso nos próximos dias.</div>`}</div></div>
+  <div class="card"><h3>Aniversariantes do mês</h3>${bd.length?`<div class="chips">${bd.map(i=>`<span class="chip on">${esc(i.nome)} · ${pad(D(i.aniversario).getDate())}/${pad(D(i.aniversario).getMonth()+1)}</span>`).join("")}</div>`:`<div class="empty">Ninguém neste mês.</div>`}</div>`};
+}
+
+/* ---- biblioteca ---- */
+function songs(){
+  let a=S.mus;
+  if(L.tab==="jubilo"||L.tab==="adoracao")a=a.filter(m=>m.categoria===L.tab);
+  if(L.tab==="fav")a=a.filter(m=>S.favs.has(m.id));
+  if(L.sel){if(L.tab==="cantor")a=a.filter(m=>S.habil.some(h=>h.musica_id===m.id&&h.integrante_id===L.sel));if(L.tab==="min")a=a.filter(m=>m.ministerio_id===L.sel);if(L.tab==="int")a=a.filter(m=>m.interprete_id===L.sel)}
+  else if(["cantor","min","int"].includes(L.tab))return `<div class="empty">Selecione uma opção acima.</div>`;
+  if(L.q)a=a.filter(m=>norm(m.nome).includes(norm(L.q)));
+  if(L.cat)a=a.filter(m=>m.categoria===L.cat);if(L.int)a=a.filter(m=>m.interprete_id===L.int);if(L.min)a=a.filter(m=>m.ministerio_id===L.min);
+  if(L.can)a=a.filter(m=>S.habil.some(h=>h.musica_id===m.id&&h.integrante_id===L.can));
+  if(L.aut)a=a.filter(m=>!!m.autoral===(L.aut==="1"));
+  return a.length?`<div class="list">${a.map(songRow).join("")}</div>`:`<div class="empty">Nenhuma música encontrada.</div>`;
+}
+function songRow(m){
+  const ip=nmOf(S.intp,m.interprete_id),mn=nmOf(S.minis,m.ministerio_id),p=prioOf(m.id);
+  return `<div class="row" data-act="song" data-id="${m.id}"><div class="who"><strong>${esc(m.nome)}</strong><small>${esc([ip,mn].filter(Boolean).join(" · ")||"—")}</small></div>${m.autoral?`<span class="bd lil">Autoral</span>`:""}${p&&!lib(p)?`<span class="bd yel">Prioridade</span>`:""}<span class="bd ${m.categoria==="jubilo"?"blu":"pnk"}">${CAT[m.categoria]}</span><button class="btn-i fav${S.favs.has(m.id)?" on":""}" data-act="fav" data-id="${m.id}" aria-label="Favoritar">${ic("star")}</button></div>`;
+}
+const sel=(k,l,o,v)=>`<select class="field" data-lf="${k}" aria-label="${l}"><option value="">${l}</option>${o.map(([x,n])=>`<option value="${x}"${v===x?" selected":""}>${esc(n)}</option>`).join("")}</select>`;
+function prioH(){
+  const rows=S.prio.map(p=>({p,m:byId(S.mus,p.musica_id)})).filter(x=>x.m).sort((a,b)=>a.m.nome.localeCompare(b.m.nome,"pt-BR"));
+  return rows.length?`<div class="list">${rows.map(({p,m})=>`<div class="row${S.admin?"":" nc"}" ${S.admin?`data-act="prioedit" data-id="${p.id}"`:""}><div class="who"><strong>${esc(m.nome)}</strong><small>Prioridade de ${esc(nmOf(S.integ,p.integrante_id))}${p.primeira_ministracao?` · 1ª ministração em ${br(p.primeira_ministracao)}`:""}</small></div><span class="bd ${lib(p)?"grn":"yel"}">${lib(p)?"Liberada":p.primeira_ministracao?"Libera amanhã":"Pendente"}</span></div>`).join("")}</div>`:`<div class="empty">Nenhuma prioridade cadastrada.</div>`;
+}
+function biblioteca(){
+  const tabs=[["jubilo","Júbilos"],["adoracao","Adorações"],["cantor","Por cantor"],["min","Por ministério"],["int","Por intérprete"],["fav","Favoritos"],["prio","Prioridades"]];
+  let h=`<div class="tabs">${tabs.map(([k,l])=>`<button class="tab${L.tab===k?" on":""}" data-act="tab" data-k="${k}">${l}</button>`).join("")}</div>`;
+  const a=L.tab==="prio"?addBtn("prioadd","Nova prioridade"):addBtn("newsong","Nova música");
+  if(L.tab==="prio")return {t:"Biblioteca",a,h:h+prioH()};
+  const es=L.tab==="cantor"?S.integ.filter(i=>i.ativo&&i.eh_cantor):L.tab==="min"?S.minis:L.tab==="int"?S.intp:null;
+  if(es)h+=`<div class="chips">${es.map(x=>`<button class="chip${L.sel===x.id?" on":""}" data-act="sel" data-id="${x.id}">${esc(x.nome)}</button>`).join("")}</div>`;
+  h+=`<div class="flt"><input class="field" data-lf="q" placeholder="Buscar por nome" value="${esc(L.q)}">${sel("cat","Categoria",Object.entries(CAT),L.cat)}${sel("int","Intérprete",S.intp.map(x=>[x.id,x.nome]),L.int)}${sel("min","Ministério",S.minis.map(x=>[x.id,x.nome]),L.min)}${sel("can","Cantor",S.integ.filter(i=>i.eh_cantor).map(x=>[x.id,x.nome]),L.can)}${sel("aut","Autoral",[["1","Sim"],["0","Não"]],L.aut)}</div><div id="songs">${songs()}</div>`;
+  return {t:"Biblioteca",a,h};
+}
+const songFields=()=>[{k:"nome",l:"Nome da música",req:1},{k:"categoria",l:"Categoria",t:"select",o:Object.entries(CAT),req:1},{k:"interprete",l:"Intérprete original",t:"combo",o:S.intp.map(x=>x.nome)},{k:"ministerio",l:"Ministério original",t:"combo",o:S.minis.map(x=>x.nome)},{k:"tom_original",l:"Tom original",t:"select",o:KO},{k:"tom_ministerio",l:"Tom padrão do ministério",t:"select",o:KO},{k:"link_youtube",l:"Link do YouTube"},{k:"autoral",l:"Composição autoral",t:"check"},{k:"cifra",l:"Cifra (acordes acima da letra)",t:"area",r:8},{k:"letra",l:"Letra",t:"area",r:6},{k:"observacoes",l:"Observações musicais",t:"area",r:3}];
+async function saveSong(id,v){
+  const row={nome:v.nome,categoria:v.categoria,interprete_id:await ent("intp",v.interprete),ministerio_id:await ent("minis",v.ministerio),tom_original:v.tom_original||null,tom_ministerio:v.tom_ministerio||null,link_youtube:v.link_youtube||null,autoral:v.autoral,cifra:v.cifra||null,letra:v.letra||null,observacoes:v.observacoes||null};
+  const {data}=await chk(id?T("musicas").update(row).eq("id",id).select().single():T("musicas").insert(row).select().single());
+  const i=S.mus.findIndex(x=>x.id===data.id);if(i>=0)S.mus[i]=data;else S.mus.push(data);srt(S.mus);return data;
+}
+function showSong(){
+  const m=byId(S.mus,SD.id);if(!m){$("dlgV").close();return}
+  if(SD.tom===null)SD.tom=m.tom_ministerio||m.tom_original||"";
+  const ip=nmOf(S.intp,m.interprete_id),mn=nmOf(S.minis,m.ministerio_id),hs=S.habil.filter(h=>h.musica_id===m.id),p=prioOf(m.id);
+  const body=SD.tab==="letra"?`<pre class="cifra ltr">${esc(m.letra||"Sem letra cadastrada.")}</pre>`:
+    `<div class="row2"><span class="fl">Tom:</span><select class="field" style="width:auto" data-sd="tom">${KEYS.map(k=>`<option value="${k}"${SD.tom===k?" selected":""}>${k}</option>`).join("")}</select>${m.tom_original?`<span class="fl">Original: ${esc(m.tom_original)}</span>`:`<span class="fl">Sem tom original (transposição desativada)</span>`}</div>${m.cifra?`<pre class="cifra">${cifraH(m.cifra,m.tom_original,SD.tom)}</pre>`:`<div class="empty">Sem cifra cadastrada.</div>`}`;
+  view(`<div class="sd-h"><div><h3>${esc(m.nome)}</h3><small>${esc([ip,mn].filter(Boolean).join(" · "))}</small></div><button class="btn-i fav${S.favs.has(m.id)?" on":""}" data-act="fav" data-id="${m.id}" aria-label="Favoritar">${ic("star")}</button></div>
+  <div class="row2"><span class="bd ${m.categoria==="jubilo"?"blu":"pnk"}">${CAT[m.categoria]}</span>${m.autoral?`<span class="bd lil">Autoral</span>`:""}${m.link_youtube?`<a class="ghost" href="${esc(m.link_youtube)}" target="_blank" rel="noopener">${ic("link")} YouTube</a>`:""}</div>
+  <div class="tabs"><button class="tab${SD.tab==="cifra"?" on":""}" data-act="sdtab" data-k="cifra">Cifra</button><button class="tab${SD.tab==="letra"?" on":""}" data-act="sdtab" data-k="letra">Letra</button></div>${body}
+  <div class="fg" style="margin-top:14px"><span class="fl">Cantores habilitados</span><div class="chips">${hs.length?hs.map(h=>`<button class="chip" data-act="settom" data-t="${esc(h.tom||"")}">${esc(nmOf(S.integ,h.integrante_id))}${h.tom?" · "+esc(h.tom):""}</button>`).join(""):`<span class="fl">Ninguém habilitado ainda.</span>`}</div></div>
+  ${p?`<div class="row2"><span class="bd ${lib(p)?"grn":"yel"}">Prioridade de ${esc(nmOf(S.integ,p.integrante_id))} · ${lib(p)?"liberada":p.primeira_ministracao?"libera amanhã":"pendente"}</span></div>`:""}
+  ${m.observacoes?`<p class="fl" style="margin-top:8px">${esc(m.observacoes)}</p>`:""}
+  ${S.admin?`<div class="row2"><button class="ghost" data-act="esong">Editar</button><button class="ghost" data-act="habs">Cantores e tons</button><button class="ghost" data-act="prio1">Prioridade</button><button class="btn-danger" data-act="dsong">Excluir</button></div>`:""}`);
+}
+
+/* ---- composições ---- */
+function composicoes(){
+  const cs=S.comps.map(c=>{const au=S.autores.filter(a=>a.composicao_id===c.id).map(a=>nmOf(S.integ,a.integrante_id)).filter(Boolean).join(", ");
+    return `<div class="card"><div class="eh"><div><strong>${esc(c.titulo)}</strong><small>${esc(au||"Sem autores")} · atualizada em ${br(c.atualizado_em.slice(0,10))}</small></div><span class="bd ${c.status==="publicada"?"grn":"lil"}">${STC[c.status]}</span></div><div class="row2">${c.status==="publicada"?`<button class="ghost" data-act="vermus" data-id="${c.musica_id||""}">Ver na biblioteca</button>`:`<button class="ghost" data-act="ecomp" data-id="${c.id}">Editar</button>`}<button class="ghost" data-act="vers" data-id="${c.id}">Versões</button>${S.admin&&c.status!=="publicada"?`<button class="ghost" data-act="publ" data-id="${c.id}">Publicar</button>`:""}</div></div>`}).join("");
+  return {t:"Composições",a:addBtn("newcomp","Nova composição"),h:cs?`<div class="grid">${cs}</div>`:`<div class="empty">Nenhuma composição ainda.</div>`};
+}
+const compFields=()=>[{k:"titulo",l:"Título provisório",req:1},...(S.admin?[{k:"autores",l:"Autores",t:"chips",o:S.integ.filter(i=>i.ativo).map(i=>[i.id,i.nome])}]:[]),{k:"status",l:"Status",t:"select",o:Object.entries(STC).filter(([k])=>k!=="publicada")},{k:"tom",l:"Tom",t:"select",o:KO},{k:"melodia_link",l:"Link da melodia (áudio ou vídeo)"},{k:"arranjo",l:"Arranjo",t:"area",r:3},{k:"letra",l:"Letra",t:"area",r:7},{k:"cifra",l:"Cifra",t:"area",r:7},{k:"observacoes",l:"Observações",t:"area",r:3}];
+async function saveComp(id,v){
+  const row={titulo:v.titulo,status:v.status,tom:v.tom||null,melodia_link:v.melodia_link||null,arranjo:v.arranjo||null,letra:v.letra||null,cifra:v.cifra||null,observacoes:v.observacoes||null};
+  const {data}=await chk(id?T("composicoes").update(row).eq("id",id).select().single():T("composicoes").insert(row).select().single());
+  if(S.admin&&v.autores){await chk(T("composicao_autores").delete().eq("composicao_id",data.id));if(v.autores.length)await chk(T("composicao_autores").insert(v.autores.map(x=>({composicao_id:data.id,integrante_id:x}))));S.autores=S.autores.filter(a=>a.composicao_id!==data.id).concat(v.autores.map(x=>({composicao_id:data.id,integrante_id:x})))}
+  if(v.__ex){const d=new Date();await chk(T("composicao_versoes").insert({composicao_id:data.id,rotulo:`Versão de ${br(iso(d))} ${pad(d.getHours())}:${pad(d.getMinutes())}`,letra:data.letra,cifra:data.cifra,tom:data.tom,arranjo:data.arranjo,observacoes:data.observacoes}))}
+  const i=S.comps.findIndex(x=>x.id===data.id);if(i>=0)S.comps[i]=data;else S.comps.unshift(data);return data;
+}
+
+/* ---- aprendizagem ---- */
+function aprendizagem(){
+  const a=S.apr.filter(x=>(!AP.i||x.integrante_id===AP.i)&&(!AP.s||x.status===AP.s));
+  const rows=a.map(x=>`<div class="row nc"><div class="who"><strong>${esc(nmOf(S.mus,x.musica_id))}</strong><small>${esc(nmOf(S.integ,x.integrante_id))} · ${INS[x.instrumento]}</small></div><select class="field" style="width:auto" data-ap="${x.id}" ${S.admin?"":"disabled"}>${Object.entries(STA).map(([k,l])=>`<option value="${k}"${x.status===k?" selected":""}>${l}</option>`).join("")}</select>${S.admin?`<button class="btn-i" data-act="apdel" data-id="${x.id}" aria-label="Remover">${ic("trash")}</button>`:""}</div>`).join("");
+  return {t:"Aprendizagem",a:addBtn("apadd","Nova"),h:`<div class="flt" style="grid-template-columns:1fr 1fr">${sel("api","Integrante",S.integ.filter(i=>i.ativo).map(i=>[i.id,i.nome]),AP.i)}${sel("aps","Status",Object.entries(STA),AP.s)}</div>${rows?`<div class="list">${rows}</div>`:`<div class="empty">Nada por aqui ainda.</div>`}`};
+}
+
+/* ---- integrantes ---- */
+function integrantes(){
+  const l=S.integ.filter(i=>showIn||i.ativo).map(i=>{
+    const sk=S.hab.filter(h=>h.integrante_id===i.id).map(h=>`<span class="bd blu">${INS[h.instrumento]} · ${NIV[h.nivel]}</span>`).join("");
+    return `<div class="card" style="${i.ativo?"":"opacity:.55"}"><div class="eh"><div><strong>${esc(i.nome)}</strong><small>${i.aniversario?"Aniversário "+pad(D(i.aniversario).getDate())+"/"+pad(D(i.aniversario).getMonth()+1):"Sem aniversário"}${i.user_id?" · conta vinculada":""}</small></div>${S.admin?`<button class="btn-i" data-act="eint" data-id="${i.id}" aria-label="Editar">${ic("pen")}</button>`:""}</div><div class="row2">${i.eh_cantor?`<span class="bd pnk">Cantor</span>`:""}${i.eh_instrumentista?`<span class="bd grn">Instrumentista</span>`:""}${i.ativo?"":`<span class="bd">Inativo</span>`}</div><div class="sk">${sk||`<span class="fl">Sem habilidades cadastradas</span>`}</div></div>`}).join("");
+  return {t:"Integrantes",a:addBtn("nint","Novo integrante"),h:`<label class="ck"><input type="checkbox" data-act="showin" ${showIn?"checked":""}> Mostrar inativos</label><div class="grid">${l}</div>`};
+}
+const intFields=()=>[{k:"nome",l:"Nome",req:1},{k:"email",l:"E-mail (para vincular a conta)",t:"email"},{k:"aniversario",l:"Aniversário",t:"date"},{k:"eh_cantor",l:"Exerce canto no ministério",t:"check"},{k:"eh_instrumentista",l:"Instrumentista",t:"check"},...Object.keys(INS).map(k=>({k:"h_"+k,l:INS[k],t:"select",o:[["","Não"],...Object.entries(NIV)]})),{k:"ativo",l:"Ativo",t:"check"},{k:"observacoes",l:"Observações",t:"area",r:3}];
+
+/* ---- histórico ---- */
+async function historico(){
+  const from=HP?iso(new Date(Date.now()-HP*864e5)):"2000-01-01";
+  const {data}=await chk(T("cultos").select("*").eq("status","realizada").gte("data",from).order("data",{ascending:false}));
+  const sc={},cc={},mc={};
+  data.filter(c=>c.tipo==="culto").forEach(c=>(c.snapshot||[]).filter(i=>i.musica&&i.cantada!==false).forEach(i=>{sc[i.musica]=(sc[i.musica]||0)+1;(i.cantores||[]).forEach(n=>cc[n]=(cc[n]||0)+1);(i.musicos||[]).forEach(x=>mc[x.nome]=(mc[x.nome]||0)+1)}));
+  const top=o=>{const e=Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,10),mx=e[0]?e[0][1]:1;return e.length?e.map(([n,v])=>`<div class="bar"><span>${esc(n)}</span><b>${v}</b><div class="bi"><i style="width:${v/mx*100}%"></i></div></div>`).join(""):`<div class="empty">Sem dados no período.</div>`};
+  const lst=data.map(c=>`<details><summary>${br(c.data)} · ${esc(c.titulo||c.tipo)}</summary>${(c.snapshot||[]).map(i=>`<p>${esc(POS[i.posicao]?POS[i.posicao][0]:i.posicao)}: <b>${esc(i.musica||"—")}</b>${i.tom?" ("+esc(i.tom)+")":""}${i.cantada===false?" — não cantada":""}<br>Cantores: ${esc((i.cantores||[]).join(", ")||"—")} · Músicos: ${esc((i.musicos||[]).map(x=>INS[x.instrumento]+": "+x.nome).join(", ")||"—")}</p>`).join("")||"<p>Sem itens.</p>"}</details>`).join("");
+  return {t:"Histórico",a:`<select class="field" style="width:auto" data-hp="1"><option value="90"${HP===90?" selected":""}>Últimos 90 dias</option><option value="365"${HP===365?" selected":""}>Último ano</option><option value="0"${!HP?" selected":""}>Tudo</option></select>`,h:`<div class="grid"><div class="card"><h3>Músicas mais usadas</h3>${top(sc)}</div><div class="card"><h3>Cantores</h3>${top(cc)}</div><div class="card"><h3>Participação dos músicos</h3>${top(mc)}</div></div><div class="card"><h3>Repertórios anteriores</h3><div class="list">${lst||`<div class="empty">Nenhum culto realizado no período.</div>`}</div></div>`};
+}
+
+/* ---- config ---- */
+function config(){
+  const ag=S.agenda.map(g=>`<div class="row nc"><div class="who"><strong>${esc(g.titulo)}</strong><small>${DN[g.dia_semana]} · ${hh(g.hora)} · ${g.tipo==="ensaio"?"Ensaio":"Culto"}${g.ativo?"":" · inativo"}</small></div>${S.admin?`<button class="btn-i" data-act="eag" data-id="${g.id}" aria-label="Editar">${ic("pen")}</button>`:""}</div>`).join("");
+  return {t:"Configurações",a:"",h:`<div class="card"><div class="eh"><h3>Agenda fixa</h3>${addBtn("nag","Novo horário")}</div><div class="list">${ag||`<div class="empty">Nenhum horário.</div>`}</div></div><div class="card"><h3>Conta</h3><div class="eh"><div><strong>${esc(user?.email||"")}</strong><small>${S.admin?"Administrador":S.me?esc(S.me.nome):""}</small></div><button class="ghost" data-act="logout">Sair</button></div></div>`};
+}
+
+/* ---- escalas ---- */
+function escalas(){
+  if(C.cur)return editor();
+  const y=C.y,m=C.m,first=new Date(y,m,1),last=new Date(y,m+1,0),ev=evs(iso(first),iso(last));let cells="";
+  for(let i=0;i<first.getDay();i++)cells+=`<div class="cd emp"></div>`;
+  for(let d=1;d<=last.getDate();d++){const k=`${y}-${pad(m+1)}-${pad(d)}`;
+    cells+=`<button class="cd${k===TODAY()?" today":""}" data-act="day" data-d="${k}"><b>${d}</b>${ev.filter(e=>e.data===k).map(e=>`<i class="ev ${e.status}">${e.hora}${e.tipo==="ensaio"?" ens.":""}</i>`).join("")}</button>`}
+  const mn=first.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+  return {t:"Escalas e cultos",a:addBtn("avulso","Avulso"),h:`<div class="card"><div class="calh"><button class="btn-i" data-act="mprev" aria-label="Mês anterior">${ic("l")}</button><strong>${mn}</strong><button class="btn-i" data-act="mnext" aria-label="Próximo mês">${ic("r")}</button></div><div class="cal">${DS.map(x=>`<div class="cw">${x}</div>`).join("")}${cells}</div></div><div class="card"><h3>Legenda</h3><div class="chips"><span class="ev virtual">Sem escala</span><span class="ev rascunho">Rascunho</span><span class="ev finalizada">Finalizada</span><span class="ev realizada">Realizada</span><span class="ev cancelada">Cancelada</span></div></div>`};
+}
+async function mkCulto(e,status="rascunho"){
+  const {data}=await chk(T("cultos").insert({data:e.data,hora:e.hora,tipo:e.tipo,titulo:e.titulo||null,status}).select("id,data,hora,tipo,titulo,status,observacoes").single());
+  S.cultos.push(data);
+  if(e.tipo==="culto"&&status!=="cancelada")await chk(T("culto_itens").insert(tpl(D(e.data).getDay()).map(p=>({culto_id:data.id,ordem:POS[p][2],posicao:p}))));
+  return data;
+}
+async function loadItems(c){
+  const items=(await chk(T("culto_itens").select("*").eq("culto_id",c.id).order("ordem"))).data,ids=items.map(i=>i.id);
+  const [a,b]=ids.length?await Promise.all([chk(T("item_cantores").select("*").in("item_id",ids)),chk(T("item_musicos").select("*").in("item_id",ids))]):[{data:[]},{data:[]}];
+  C.cur={c,items,cant:a.data,mus:b.data};
+}
+async function openC(c){await loadItems(c);V="escalas";buildNav();render();window.scrollTo(0,0)}
+async function reloadC(){const id=C.cur.c.id;await reloadCultos();await loadItems(byId(S.cultos,id));render()}
+function warns(it){
+  const m=byId(S.mus,it.musica_id);if(!m||it.posicao==="ensaio")return [];const w=[];
+  const cs=C.cur.cant.filter(x=>x.item_id===it.id).map(x=>x.integrante_id),ms=C.cur.mus.filter(x=>x.item_id===it.id);
+  const learning=(id,k)=>S.apr.some(a=>a.musica_id===m.id&&a.integrante_id===id&&a.instrumento===k&&["nova","em_aprendizagem"].includes(a.status));
+  cs.forEach(id=>{const n=nmOf(S.integ,id);if(!S.habil.some(h=>h.musica_id===m.id&&h.integrante_id===id))w.push(`${n} não está habilitado(a) nesta música.`);if(learning(id,"voz"))w.push(`${n} ainda está aprendendo esta música (voz).`)});
+  ms.forEach(x=>{const n=nmOf(S.integ,x.integrante_id),k=INS[x.instrumento].toLowerCase();if(!S.hab.some(h=>h.integrante_id===x.integrante_id&&h.instrumento===x.instrumento))w.push(`${n} não tem ${k} cadastrado.`);if(learning(x.integrante_id,x.instrumento))w.push(`${n} ainda está aprendendo ${k} nesta música.`)});
+  const cnt={};ms.forEach(x=>cnt[x.integrante_id]=(cnt[x.integrante_id]||0)+1);
+  Object.entries(cnt).filter(([,n])=>n>1).forEach(([id])=>w.push(`${nmOf(S.integ,id)} está em mais de um instrumento.`));
+  const p=prioOf(m.id);if(p&&!lib(p)&&!cs.includes(p.integrante_id))w.push(`Música inédita com prioridade de ${nmOf(S.integ,p.integrante_id)}.`);
+  return w;
+}
+function slotH(it,ed){
+  const [lab,cat]=POS[it.posicao],cs=C.cur.cant.filter(x=>x.item_id===it.id).map(x=>x.integrante_id),dis=ed?"":"disabled";
+  const songsO=srt(S.mus.filter(s=>!cat||s.categoria===cat)).map(s=>{const p=prioOf(s.id),lk=p&&!lib(p)?` — prioridade: ${nmOf(S.integ,p.integrante_id)}`:"";return `<option value="${s.id}"${s.id===it.musica_id?" selected":""}>${esc(s.nome+lk)}</option>`}).join("");
+  const head=`<div class="sl-h"><strong>${lab}</strong>${cat?`<span class="bd ${cat==="jubilo"?"blu":"pnk"}">${CAT[cat]}</span>`:""}${ed&&["adoracao2","adoracao_pos","ensaio"].includes(it.posicao)?`<button class="btn-i" data-act="delitem" data-id="${it.id}" aria-label="Remover posição">${ic("trash")}</button>`:""}</div>`;
+  const song=`<select class="field" data-it="${it.id}" data-f="musica_id" ${dis}><option value="">Selecionar música…</option>${songsO}</select>`;
+  if(it.posicao==="ensaio")return `<div class="slot">${head}${song}<input class="field" data-it="${it.id}" data-f="observacoes" placeholder="Observações" value="${esc(it.observacoes)}" ${dis}></div>`;
+  const singers=S.integ.filter(i=>i.ativo&&i.eh_cantor).map(i=>`<button class="chip${cs.includes(i.id)?" on":""}" ${ed?`data-act="cant" data-it="${it.id}" data-in="${i.id}"`:"disabled"}>${esc(i.nome)}</button>`).join("");
+  const mus=INSTR.map(k=>{const cur=C.cur.mus.find(x=>x.item_id===it.id&&x.instrumento===k),o=S.integ.filter(i=>i.ativo&&i.eh_instrumentista).map(i=>{const h=S.hab.find(h=>h.integrante_id===i.id&&h.instrumento===k);return `<option value="${i.id}"${cur&&cur.integrante_id===i.id?" selected":""}>${esc(i.nome+(h?" ("+NIV[h.nivel].toLowerCase()+")":""))}</option>`}).join("");return `<label class="mi"><span>${INS[k]}</span><select class="field" data-it="${it.id}" data-mi="${k}" ${dis}><option value="">—</option>${o}</select></label>`}).join("");
+  const w=warns(it);
+  return `<div class="slot">${head}${song}<label class="mi"><span>Tom nesta apresentação</span><select class="field" data-it="${it.id}" data-f="tom" ${dis}>${KO.map(([k,l])=>`<option value="${k}"${(it.tom||"")===k?" selected":""}>${l}</option>`).join("")}</select></label><div class="fg" style="margin:0"><span class="fl">Cantores</span><div class="chips">${singers||`<span class="fl">Nenhum cantor cadastrado.</span>`}</div></div><div class="mgrid">${mus}</div><input class="field" data-it="${it.id}" data-f="observacoes" placeholder="Observações para este culto" value="${esc(it.observacoes)}" ${dis}>${w.map(x=>`<div class="warn">⚠ ${esc(x)}</div>`).join("")}</div>`;
+}
+function editor(){
+  const {c,items}=C.cur,ed=S.admin&&c.status!=="cancelada",st=c.status;
+  const b=(s,l,w)=>`<button class="${w?"white":"ghost"}" data-act="cstat" data-s="${s}">${l}</button>`;
+  const acts=!S.admin?"":st==="rascunho"?b("finalizada","Finalizar escala",1)+b("cancelada","Cancelar"):st==="finalizada"?b("realizada","Marcar como realizada",1)+b("rascunho","Voltar para rascunho")+b("cancelada","Cancelar"):st==="realizada"?b("finalizada","Reabrir"):b("rascunho","Reativar");
+  let body=items.map(it=>slotH(it,ed)).join("");
+  if(c.tipo==="ensaio"){
+    const sg=[...new Set(S.apr.filter(a=>a.status!=="dominada").map(a=>a.musica_id))].filter(id=>byId(S.mus,id)&&!items.some(i=>i.musica_id===id));
+    body+=ed?`<div class="card"><div class="row2"><button class="ghost" data-act="addens">${ic("plus")} Adicionar música</button></div>${sg.length?`<span class="fl">Sugeridas da aprendizagem</span><div class="chips" style="margin-top:8px">${sg.map(id=>`<button class="chip" data-act="sug" data-id="${id}">${esc(nmOf(S.mus,id))}</button>`).join("")}</div>`:""}</div>`:"";
+  }else{
+    const miss=["adoracao2","adoracao_pos"].filter(p=>!items.some(i=>i.posicao===p));
+    if(ed&&miss.length)body+=`<div class="row2"><button class="ghost" data-act="addpos">${ic("plus")} Adicionar posição</button></div>`;
+  }
+  return {t:"Escala",a:`<button class="ghost" data-act="back">Voltar</button>`,h:`<div class="card"><div class="eh"><div><strong>${esc(c.titulo||(c.tipo==="ensaio"?"Ensaio":"Culto"))}</strong><small>${D(c.data).toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})} · ${hh(c.hora)}</small></div><span class="bd ${st==="realizada"?"grn":st==="finalizada"?"blu":st==="cancelada"?"pnk":"yel"}">${STU[st]}</span></div><div class="row2">${acts}</div></div>${items.length?body:`<div class="empty">Nenhuma posição neste compromisso.</div>`}`};
+}
+
+const VIEWS={painel,escalas,biblioteca,composicoes,aprendizagem,integrantes,historico,config};
+
+/* ---------- ações ---------- */
+const A={};
+document.addEventListener("click",async e=>{const el=e.target.closest("[data-act]");if(!el)return;const f=A[el.dataset.act];if(!f)return;try{await f(el,e)}catch(x){fail(x)}});
+A.nav=el=>go(el.dataset.v);
+A.logout=()=>sb.auth.signOut();
+A.tab=el=>{L.tab=el.dataset.k;L.sel=null;render()};
+A.sel=el=>{L.sel=L.sel===el.dataset.id?null:el.dataset.id;render()};
+A.showin=el=>{showIn=el.checked;render()};
+A.fav=async el=>{
+  const id=el.dataset.id;
+  if(S.favs.has(id)){await chk(T("favoritos").delete().eq("musica_id",id).eq("user_id",user.id));S.favs.delete(id)}else{await chk(T("favoritos").insert({musica_id:id}));S.favs.add(id)}
+  render();if($("dlgV").open&&SD.id)showSong();
+};
+A.song=el=>{SD={id:el.dataset.id,tab:"cifra",tom:null};showSong()};
+A.vermus=el=>{if(!el.dataset.id)return;SD={id:el.dataset.id,tab:"cifra",tom:null};showSong()};
+A.sdtab=el=>{SD.tab=el.dataset.k;showSong()};
+A.settom=el=>{if(el.dataset.t){SD.tom=el.dataset.t;SD.tab="cifra";showSong()}};
+A.newsong=async()=>{
+  const v=await form("Nova música",songFields(),{categoria:"jubilo"});if(!v)return;
+  const m=await saveSong(null,v);render();SD={id:m.id,tab:"cifra",tom:null};showSong();A.habs();
+};
+A.esong=async()=>{
+  const m=byId(S.mus,SD.id),v=await form("Editar música",songFields(),{...m,interprete:nmOf(S.intp,m.interprete_id),ministerio:nmOf(S.minis,m.ministerio_id)});if(!v)return;
+  await saveSong(m.id,v);SD.tom=null;render();showSong();toast("Música atualizada");
+};
+A.dsong=async()=>{
+  const m=byId(S.mus,SD.id);if(!confirm(`Excluir "${m.nome}" da biblioteca?`))return;
+  await chk(T("musicas").delete().eq("id",m.id));S.mus=S.mus.filter(x=>x.id!==m.id);S.habil=S.habil.filter(h=>h.musica_id!==m.id);S.prio=S.prio.filter(p=>p.musica_id!==m.id);S.apr=S.apr.filter(a=>a.musica_id!==m.id);
+  $("dlgV").close();render();toast("Música excluída");
+};
+A.habs=async()=>{
+  const m=byId(S.mus,SD.id),sg=S.integ.filter(i=>i.ativo&&i.eh_cantor),hs=S.habil.filter(h=>h.musica_id===m.id),data={};
+  hs.forEach(h=>data["c_"+h.integrante_id]=h.tom||"*");
+  const v=await form("Cantores e tons",sg.map(i=>({k:"c_"+i.id,l:i.nome,t:"select",o:[["","Não habilitado"],["*","Habilitado"],...KEYS.map(k=>[k,"Habilitado em "+k])]})),data);if(!v)return;
+  const rows=sg.filter(i=>v["c_"+i.id]).map(i=>({musica_id:m.id,integrante_id:i.id,tom:v["c_"+i.id]==="*"?null:v["c_"+i.id]}));
+  await chk(T("habilitacoes").delete().eq("musica_id",m.id));if(rows.length)await chk(T("habilitacoes").insert(rows));
+  S.habil=S.habil.filter(h=>h.musica_id!==m.id).concat(rows);render();showSong();toast("Habilitações salvas");
+};
+async function savePrio(mid,iid,pm){
+  const {data}=await chk(T("prioridades").upsert({musica_id:mid,integrante_id:iid,primeira_ministracao:pm||null},{onConflict:"musica_id"}).select().single());
+  const i=S.prio.findIndex(p=>p.musica_id===mid);if(i>=0)S.prio[i]=data;else S.prio.push(data);
+}
+const intO=()=>S.integ.filter(i=>i.ativo).map(i=>[i.id,i.nome]);
+A.prio1=async()=>{
+  const m=byId(S.mus,SD.id),p=prioOf(m.id);
+  const v=await form("Prioridade de música inédita",[{k:"i",l:"Integrante com a prioridade",t:"select",o:intO(),req:1},{k:"d",l:"Data da primeira ministração (preenchida ao registrar o culto)",t:"date"}],{i:p?.integrante_id,d:p?.primeira_ministracao},{del:!!p});if(!v)return;
+  if(v.__del){await chk(T("prioridades").delete().eq("musica_id",m.id));S.prio=S.prio.filter(x=>x.musica_id!==m.id)}else await savePrio(m.id,v.i,v.d);
+  render();showSong();
+};
+A.prioadd=async()=>{
+  const o=S.mus.filter(m=>!prioOf(m.id)).map(m=>[m.id,m.nome]);if(!o.length){toast("Todas as músicas já têm prioridade cadastrada.");return}
+  const v=await form("Nova prioridade",[{k:"m",l:"Música inédita",t:"select",o,req:1},{k:"i",l:"Integrante com a prioridade",t:"select",o:intO(),req:1}]);if(!v)return;
+  await savePrio(v.m,v.i,null);render();
+};
+A.prioedit=async el=>{
+  const p=byId(S.prio,el.dataset.id);
+  const v=await form(nmOf(S.mus,p.musica_id),[{k:"i",l:"Integrante com a prioridade",t:"select",o:intO(),req:1},{k:"d",l:"Data da primeira ministração",t:"date"}],{i:p.integrante_id,d:p.primeira_ministracao},{del:true});if(!v)return;
+  if(v.__del){await chk(T("prioridades").delete().eq("id",p.id));S.prio=S.prio.filter(x=>x.id!==p.id)}else await savePrio(p.musica_id,v.i,v.d);
+  render();
+};
+A.newcomp=async()=>{const v=await form("Nova composição",compFields(),{status:"desenvolvimento",autores:S.me?[S.me.id]:[]},{ex:"Salvar e criar versão"});if(!v)return;await saveComp(null,v);render();toast("Composição criada")};
+A.ecomp=async el=>{
+  const c=byId(S.comps,el.dataset.id),v=await form("Editar composição",compFields(),{...c,autores:S.autores.filter(a=>a.composicao_id===c.id).map(a=>a.integrante_id)},{ex:"Salvar e criar versão"});if(!v)return;
+  await saveComp(c.id,v);render();toast(v.__ex?"Nova versão salva":"Composição atualizada");
+};
+A.vers=async el=>{
+  const id=el.dataset.id,c=byId(S.comps,id),{data}=await chk(T("composicao_versoes").select("*").eq("composicao_id",id).order("criado_em",{ascending:false}));
+  view(`<h3>Versões de ${esc(c.titulo)}</h3><div class="list">${data.length?data.map(x=>`<details><summary>${esc(x.rotulo||br(x.criado_em.slice(0,10)))}</summary><p><b>Tom:</b> ${esc(x.tom||"—")}</p><pre class="cifra ltr">${esc(x.letra||"")}</pre>${x.cifra?`<pre class="cifra">${esc(x.cifra)}</pre>`:""}${c.status!=="publicada"?`<div class="row2"><button class="ghost" data-act="verrest" data-id="${x.id}" data-c="${id}">Restaurar esta versão</button></div>`:""}</details>`).join(""):`<div class="empty">Nenhuma versão salva. Use "Salvar e criar versão" ao editar.</div>`}</div>`);
+};
+A.verrest=async el=>{
+  const {data:x}=await chk(T("composicao_versoes").select("*").eq("id",el.dataset.id).single());
+  const {data}=await chk(T("composicoes").update({letra:x.letra,cifra:x.cifra,tom:x.tom,arranjo:x.arranjo,observacoes:x.observacoes}).eq("id",el.dataset.c).select().single());
+  S.comps[S.comps.findIndex(c=>c.id===data.id)]=data;$("dlgV").close();render();toast("Versão restaurada");
+};
+A.publ=async el=>{
+  const c=byId(S.comps,el.dataset.id),v=await form(`Publicar "${c.titulo}"`,[{k:"c",l:"Categoria na biblioteca",t:"select",o:Object.entries(CAT),req:1}],{c:"jubilo"},{ok:"Publicar"});if(!v)return;
+  await chk(sb.rpc("lv_publicar_composicao",{p_composicao:c.id,p_categoria:v.c}));
+  const [a,b]=await Promise.all([chk(T("composicoes").select("*").order("atualizado_em",{ascending:false})),chk(T("musicas").select("*").order("nome"))]);S.comps=a.data;S.mus=b.data;render();toast("Composição publicada na biblioteca");
+};
+A.apadd=async()=>{
+  const v=await form("Nova aprendizagem",[{k:"m",l:"Música",t:"select",o:srt([...S.mus]).map(m=>[m.id,m.nome]),req:1},{k:"i",l:"Integrante",t:"select",o:intO(),req:1},{k:"k",l:"Instrumento",t:"select",o:Object.entries(INS)},{k:"s",l:"Situação",t:"select",o:Object.entries(STA)}],{k:"violao",s:"nova"});if(!v)return;
+  const {data}=await chk(T("aprendizagem").insert({musica_id:v.m,integrante_id:v.i,instrumento:v.k,status:v.s}).select().single());S.apr.push(data);render();
+};
+A.apdel=async el=>{await chk(T("aprendizagem").delete().eq("id",el.dataset.id));S.apr=S.apr.filter(a=>a.id!==el.dataset.id);render()};
+A.nint=()=>editInt(null);
+A.eint=el=>editInt(byId(S.integ,el.dataset.id));
+async function editInt(i){
+  const d={ativo:true,...(i||{})};S.hab.filter(h=>i&&h.integrante_id===i.id).forEach(h=>d["h_"+h.instrumento]=h.nivel);
+  const v=await form(i?"Editar integrante":"Novo integrante",intFields(),d);if(!v)return;
+  const row={nome:v.nome,email:v.email||null,aniversario:v.aniversario||null,eh_cantor:v.eh_cantor,eh_instrumentista:v.eh_instrumentista,ativo:v.ativo,observacoes:v.observacoes||null};
+  const {data}=await chk(i?T("integrantes").update(row).eq("id",i.id).select().single():T("integrantes").insert(row).select().single());
+  const hs=Object.keys(INS).filter(k=>v["h_"+k]).map(k=>({integrante_id:data.id,instrumento:k,nivel:v["h_"+k]}));
+  await chk(T("habilidades").delete().eq("integrante_id",data.id));if(hs.length)await chk(T("habilidades").insert(hs));
+  const j=S.integ.findIndex(x=>x.id===data.id);if(j>=0)S.integ[j]=data;else S.integ.push(data);srt(S.integ);
+  S.hab=S.hab.filter(h=>h.integrante_id!==data.id).concat(hs);render();toast("Integrante salvo");
+}
+const agF=()=>[{k:"titulo",l:"Título",req:1},{k:"dia",l:"Dia da semana",t:"select",o:DN.map((n,i)=>[String(i),n])},{k:"hora",l:"Horário",t:"time",req:1},{k:"tipo",l:"Tipo",t:"select",o:[["culto","Culto"],["ensaio","Ensaio"]]},{k:"ativo",l:"Ativo",t:"check"}];
+async function editAg(g){
+  const v=await form(g?"Editar horário":"Novo horário",agF(),g?{titulo:g.titulo,dia:String(g.dia_semana),hora:hh(g.hora),tipo:g.tipo,ativo:g.ativo}:{dia:"0",tipo:"culto",ativo:true},{del:!!g});if(!v)return;
+  if(v.__del){await chk(T("agenda_fixa").delete().eq("id",g.id));S.agenda=S.agenda.filter(x=>x.id!==g.id)}
+  else{const row={titulo:v.titulo,dia_semana:Number(v.dia),hora:v.hora,tipo:v.tipo,ativo:v.ativo};const {data}=await chk(g?T("agenda_fixa").update(row).eq("id",g.id).select().single():T("agenda_fixa").insert(row).select().single());const j=S.agenda.findIndex(x=>x.id===data.id);if(j>=0)S.agenda[j]=data;else S.agenda.push(data);S.agenda.sort((a,b)=>a.dia_semana-b.dia_semana||hh(a.hora).localeCompare(hh(b.hora)))}
+  render();
+}
+A.nag=()=>editAg(null);A.eag=el=>editAg(byId(S.agenda,el.dataset.id));
+A.mprev=()=>{C.m--;if(C.m<0){C.m=11;C.y--}render()};
+A.mnext=()=>{C.m++;if(C.m>11){C.m=0;C.y++}render()};
+A.day=el=>{
+  const k=el.dataset.d,es=evs(k,k);
+  view(`<h3>${D(k).toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}</h3><div class="list">${es.length?es.map(e=>`${evRow(e)}${S.admin&&e.status!=="cancelada"?`<div class="row2" style="margin-top:-2px"><button class="ghost" data-act="cancelev" data-d="${e.data}" data-h="${e.hora}" data-t="${e.tipo}">Cancelar este dia</button></div>`:""}`).join(""):`<div class="empty">Nada agendado neste dia.</div>`}</div>${S.admin?`<div class="row2"><button class="ghost" data-act="avulso" data-d="${k}">${ic("plus")} Culto ou ensaio avulso</button></div>`:""}`);
+};
+const findEv=el=>evs(el.dataset.d,el.dataset.d).find(e=>e.hora===el.dataset.h&&e.tipo===el.dataset.t);
+A.openev=async el=>{
+  let e=findEv(el);if(!e)return;
+  if(!e.id){if(!S.admin){toast("A escala deste dia ainda não foi montada.");return}e=await mkCulto(e)}
+  $("dlgV").close();await openC(byId(S.cultos,e.id)||e);
+};
+A.cancelev=async el=>{
+  const e=findEv(el);if(!e)return;
+  if(e.id)await chk(T("cultos").update({status:"cancelada"}).eq("id",e.id));else await mkCulto(e,"cancelada");
+  await reloadCultos();$("dlgV").close();render();toast("Dia cancelado");
+};
+A.avulso=async el=>{
+  const v=await form("Culto ou ensaio avulso",[{k:"titulo",l:"Título",req:1},{k:"data",l:"Data",t:"date",req:1},{k:"hora",l:"Horário",t:"time",req:1},{k:"tipo",l:"Tipo",t:"select",o:[["culto","Culto"],["ensaio","Ensaio"]]}],{data:(el&&el.dataset&&el.dataset.d)||TODAY(),tipo:"culto"});if(!v)return;
+  const c=await mkCulto(v);$("dlgV").close();await openC(c);
+};
+A.back=()=>{C.cur=null;render()};
+A.cstat=async el=>{
+  const c=C.cur.c,s=el.dataset.s;
+  if(s==="realizada"&&c.tipo==="culto"){
+    const its=C.cur.items.filter(i=>i.musica_id);if(!its.length){toast("Escolha ao menos uma música antes de registrar.");return}
+    const v=await form("Quais músicas foram cantadas?",[{k:"ids",l:"Marque as que foram cantadas",t:"chips",o:its.map(i=>[i.id,`${POS[i.posicao][0]}: ${nmOf(S.mus,i.musica_id)}`])}],{ids:its.map(i=>i.id)},{ok:"Registrar culto"});if(!v)return;
+    await chk(sb.rpc("lv_realizar_culto",{p_culto:c.id,p_cantadas:v.ids}));await reloadPrio();toast("Culto registrado no histórico");
+  }else await chk(T("cultos").update({status:s}).eq("id",c.id));
+  await reloadC();
+};
+A.addpos=async()=>{
+  const miss=["adoracao2","adoracao_pos"].filter(p=>!C.cur.items.some(i=>i.posicao===p));
+  const v=await form("Adicionar posição",[{k:"p",l:"Posição",t:"select",o:miss.map(p=>[p,POS[p][0]])}]);if(!v)return;
+  await chk(T("culto_itens").insert({culto_id:C.cur.c.id,ordem:POS[v.p][2],posicao:v.p}));await reloadC();
+};
+A.delitem=async el=>{await chk(T("culto_itens").delete().eq("id",el.dataset.id));await reloadC()};
+A.addens=async()=>{const mx=Math.max(0,...C.cur.items.map(i=>i.ordem));await chk(T("culto_itens").insert({culto_id:C.cur.c.id,ordem:mx+1,posicao:"ensaio"}));await reloadC()};
+A.sug=async el=>{const mx=Math.max(0,...C.cur.items.map(i=>i.ordem));await chk(T("culto_itens").insert({culto_id:C.cur.c.id,ordem:mx+1,posicao:"ensaio",musica_id:el.dataset.id}));await reloadC()};
+A.cant=async el=>{
+  const item_id=el.dataset.it,integrante_id=el.dataset.in,has=C.cur.cant.some(x=>x.item_id===item_id&&x.integrante_id===integrante_id);
+  if(has){await chk(T("item_cantores").delete().eq("item_id",item_id).eq("integrante_id",integrante_id));C.cur.cant=C.cur.cant.filter(x=>!(x.item_id===item_id&&x.integrante_id===integrante_id))}
+  else{await chk(T("item_cantores").insert({item_id,integrante_id}));C.cur.cant.push({item_id,integrante_id})}
+  render();
+};
+
+/* alterações em campos (autosave) */
+document.addEventListener("change",async e=>{
+  const el=e.target;
+  try{
+    if(el.dataset.lf){const k=el.dataset.lf;if(k==="api")AP.i=el.value;else if(k==="aps")AP.s=el.value;else L[k]=el.value;if(V==="aprendizagem")render();else if($("songs"))$("songs").innerHTML=songs();return}
+    if(el.dataset.hp){HP=Number(el.value);render();return}
+    if(el.dataset.sd){SD.tom=el.value;showSong();return}
+    if(el.dataset.ap){await chk(T("aprendizagem").update({status:el.value}).eq("id",el.dataset.ap));byId(S.apr,el.dataset.ap).status=el.value;toast("Situação atualizada");return}
+    const id=el.dataset.it;if(!id||!C.cur)return;const it=C.cur.items.find(x=>x.id===id);
+    if(el.dataset.f){
+      const f=el.dataset.f,patch={[f]:el.value||null};
+      if(f==="musica_id"){const m=byId(S.mus,el.value);patch.tom=m?(m.tom_ministerio||m.tom_original||null):null}
+      await chk(T("culto_itens").update(patch).eq("id",id));Object.assign(it,patch);render();
+    }else if(el.dataset.mi){
+      const k=el.dataset.mi;C.cur.mus=C.cur.mus.filter(x=>!(x.item_id===id&&x.instrumento===k));
+      if(el.value){const r={item_id:id,instrumento:k,integrante_id:el.value};await chk(T("item_musicos").upsert(r));C.cur.mus.push(r)}
+      else await chk(T("item_musicos").delete().eq("item_id",id).eq("instrumento",k));
+      render();
+    }
+  }catch(x){fail(x)}
+});
+document.addEventListener("input",e=>{const el=e.target;if(el.dataset.lf==="q"){L.q=el.value;if($("songs"))$("songs").innerHTML=songs()}});
+
+/* ---------- login ---------- */
+$("fAuth").onsubmit=async e=>{
+  e.preventDefault();$("authErr").textContent="";
+  const {error}=await sb.auth.signInWithPassword({email:$("inEmail").value.trim(),password:$("inPass").value});
+  if(error)$("authErr").textContent="E-mail ou senha incorretos.";
+};
+async function enter(session){
+  if(!session){user=null;S.admin=false;document.body.classList.add("locked");document.body.classList.remove("boot");return}
+  if(user&&user.id===session.user.id)return;
+  user=session.user;
+  const ok=await loadAll();
+  if(!ok){const bad=!S.admin&&!S.me;user=null;await sb.auth.signOut();if(bad)$("authErr").textContent="Sua conta não está vinculada ao ministério. Peça ao administrador para vinculá-la.";return}
+  document.body.classList.remove("locked","boot");go("painel");
+}
+sb.auth.onAuthStateChange((ev,session)=>setTimeout(()=>enter(session),0));
+sb.auth.getSession().then(({data})=>enter(data.session));
+buildNav();
+})();
+</script>
+</body>
+</html>
